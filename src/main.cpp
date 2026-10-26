@@ -1151,10 +1151,16 @@ void draw_games(Canvas &c)
     text(c, 100, 120, "Your games", 44, white, 900);
     if (visible_count == 0)
     {
-        const char *msg = list_state == list_failed ? "Could not reach Elf Arsenal. Start it and press Refresh."
-                          : list_state == list_done ? "No games with trophies were found."
-                                                    : "Loading your games...";
-        text(c, 100, 280, msg, 32, list_state == list_failed ? bad : muted, 1500);
+        if (list_state == list_failed)
+        {
+            text(c, 100, 280, "Could not reach Elf Arsenal.", 40, bad, 1500);
+            text(c, 100, 350, "Trophy Manager needs Elf Arsenal, a separate homebrew, running on this console.", 30,
+                 white, 1700);
+            text(c, 100, 400, "Start Elf Arsenal, then press Square to refresh.", 30, muted, 1700);
+        }
+        else
+            text(c, 100, 280, list_state == list_done ? "No games with trophies were found." : "Loading your games...",
+                 32, muted, 1500);
     }
     clamp_list(visible_count, cursor, scroll, rows_games);
     for (int row = 0; row < rows_games && scroll + row < visible_count; ++row)
